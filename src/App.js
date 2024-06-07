@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/layout/Navbar.js";
-function App() {
+import Users from "./components/users/Users.js";
+const App = () => {
+  const [users, setUsers] = useState([]);
   // Use the 'useEffect' hook to perform side effects in function components
   useEffect(() => {
     // Define an asynchronous function 'fetchData' to fetch data from the GitHub API;
@@ -11,7 +13,7 @@ function App() {
         // Use the 'axios' library to make a GET request to the GitHub API endpoint;
         const response = await axios.get("https://api.github.com/users");
         // Log the fetched data to the console
-        console.log("GitHub Users:", response.data);
+        setUsers(response.data);
       } catch (error) {
         // Log an error message if there's an issue fetching data
         console.error("Error fetching data:", error);
@@ -24,9 +26,10 @@ function App() {
     <div className='App'>
       <Navbar />
       <div className='container'>
-        <h1>Hello from React</h1>
+        <h1>GitHub Users Data</h1>
       </div>
+      <Users users={users} />
     </div>
   );
-}
+};
 export default App;
