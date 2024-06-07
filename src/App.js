@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/layout/Navbar.js";
-import Users from "./components/users/Users.js";
+import Search from "./components/users/Search.js";
 const App = () => {
   const [users, setUsers] = useState([]);
   // Use the 'useEffect' hook to perform side effects in function components
@@ -28,7 +28,7 @@ const App = () => {
       <div className='container'>
         <h1>GitHub Users Data</h1>
       </div>
-      <Users users={users} />
+      <Search/>
     </div>
   );
 };
