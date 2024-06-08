@@ -19,7 +19,6 @@ export const searchUserApi = async (text) => {
       `https://api.github.com/search/users?q=${text} `
     );
     const data = response.data.items;
-    console.log(data)
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);

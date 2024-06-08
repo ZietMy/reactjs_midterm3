@@ -1,33 +1,26 @@
-// Search.js
-import axios from "axios";
-import React, { useState } from "react";
-import Users from "./Users";
+import React, { useContext } from 'react';
+import Users from './Users';
+import { SearchContext } from './SearchContext';
+
 const Search = () => {
-  const [text, setText] = useState("");
-  const [users, setUsers] = useState([]);
-  const searchUsers = async (text) => {
-    try {
-      const response = await axios.get(
-        `https://api.github.com/search/users?q=${text} `
-      );
-      setUsers(response.data.items);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const { text, setText, users, setUsers, searchUsers } = useContext(SearchContext);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (text === "") {
-      alert("Please enter something");
+    if (text === '') {
+      alert('Please enter something');
     } else {
       searchUsers(text);
-      setText("");
+      setText('');
     }
   };
+
   const clearUsers = () => {
     setUsers([]);
   };
+
   const onChange = (e) => setText(e.target.value);
+
   return (
     <div>
       <form onSubmit={onSubmit} className='form'>
@@ -53,4 +46,5 @@ const Search = () => {
     </div>
   );
 };
+
 export default Search;

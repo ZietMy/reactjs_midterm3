@@ -1,25 +1,32 @@
-import { Fragment, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
-import Repos from "../repos/Repos";
-import { getUserApi, getUserReposApi } from "../../api";
+import React, { Fragment, useEffect, useState, useContext } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import Repos from '../repos/Repos';
+import { getUserApi, getUserReposApi } from '../../api';
+import { SearchContext } from './SearchContext';
+
 const User = () => {
   const { id } = useParams();
   const history = useHistory();
+  const { users } = useContext(SearchContext);
 
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
+
   const getUser = async (username) => {
     const userData = await getUserApi(username);
     setUser(userData);
   };
-  const getUserRepos = async (id) => {
-    const userReposData = await getUserReposApi(id);
+
+  const getUserRepos = async (username) => {
+    const userReposData = await getUserReposApi(username);
     setRepos(userReposData);
   };
+
   useEffect(() => {
     getUser(id);
     getUserRepos(id);
-  }, []);
+  }, [id]);
+
   const {
     name,
     avatar_url,
@@ -35,6 +42,7 @@ const User = () => {
     public_gists,
     hireable,
   } = user;
+
   return (
     <>
       <button onClick={() => history.goBack()} className="btn btn-light">
