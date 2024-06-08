@@ -1,32 +1,24 @@
-// User.js
-import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
-// import Repos from "../repos/Repos";
+import { Fragment, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import Repos from "../repos/Repos";
+import { getUserApi, getUserReposApi } from "../../api";
 const User = () => {
   const { id } = useParams();
+  const history = useHistory();
+
   const [user, setUser] = useState({});
-//   const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState([]);
   const getUser = async (username) => {
-    try {
-      const response = await axios.get(
-        `https://api.github.com/users/${username}`
-      );
-      const data = response.data;
-      setUser(data);
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    }
+    const userData = await getUserApi(username);
+    setUser(userData);
   };
-//   const getUserRepos = async (id) => {
-//     // To be completed ...
-//     // This is the small exercise for students
-//     // Students will write the code to fetch the user's repositories
-//     // Then display the repositories in the User component
-//   };
+  const getUserRepos = async (id) => {
+    const userReposData = await getUserReposApi(id);
+    setRepos(userReposData);
+  };
   useEffect(() => {
     getUser(id);
-    // getUserRepos(id);
+    getUserRepos(id);
   }, []);
   const {
     name,
@@ -44,22 +36,22 @@ const User = () => {
     hireable,
   } = user;
   return (
-    <Fragment>
-      <Link to='/' className='btn btn-light'>
+    <>
+      <button onClick={() => history.goBack()} className="btn btn-light">
         Back to Search
-      </Link>
+      </button>
       Hireable:{" "}
       {hireable ? (
-        <i className='fas fa-check text-success' />
+        <i className="fas fa-check text-success" />
       ) : (
-        <i className='fas fa-times-circle text-danger' />
+        <i className="fas fa-times-circle text-danger" />
       )}
-      <div className='card grid-2'>
-        <div className='all-center'>
+      <div className="card grid-2">
+        <div className="all-center">
           <img
             src={avatar_url}
             alt={name}
-            className='round-img'
+            className="round-img"
             style={{ width: "150px" }}
           />
           <h1>{name}</h1>
@@ -74,9 +66,9 @@ const User = () => {
           )}
           <a
             href={html_url}
-            className='btn btn-dark my-1'
-            target='_blank'
-            rel='noopener noreferrer'
+            className="btn btn-dark my-1"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Show Github Profile
           </a>
@@ -101,7 +93,8 @@ const User = () => {
               {blog && (
                 <Fragment>
                   <strong>Website: </strong>
-                  <a href={blog} target='_blank' rel='noopener noreferrer'>
+                  <a href={blog} target="_blank" rel="noopener noreferrer">
+                    {" "}
                     {blog}
                   </a>
                 </Fragment>
@@ -110,14 +103,15 @@ const User = () => {
           </ul>
         </div>
       </div>
-      <div className='card text-center'>
-        <div className='badge badge-primary'>Followers: {followers}</div>
-        <div className='badge badge-success'>Following: {following}</div>
-        <div className='badge badge-light'>Repository: {public_repos}</div>
-        <div className='badge badge-dark'>Gist: {public_gists}</div>
+      <div className="card text-center">
+        <div className="badge badge-primary">Followers: {followers}</div>{" "}
+        <div className="badge badge-success">Following: {following}</div>{" "}
+        <div className="badge badge-light">Repository: {public_repos}</div>{" "}
+        <div className="badge badge-dark">Gist: {public_gists}</div>{" "}
       </div>
-      {/* <Repos repos={repos} /> */}
-    </Fragment>
+      <Repos repos={repos} />
+    </>
   );
 };
+
 export default User;
