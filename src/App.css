@@ -433,3 +433,28 @@ table th {
   left: 0;
   width: 100%;
 }
+body {
+  transition: background-color 0.5s ease;
+}
+
+.navbar {
+  transition: background-color 0.5s ease;
+}
+
+.bg-success {
+  background-color: #28a745;
+}
+
+.bg-dark {
+  background-color: #343a40;
+}
+
+body.light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+body.dark {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
