@@ -6,6 +6,7 @@ import Search from "./components/users/Search.js";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import About from "./components/pages/About.js";
 import NotFound from "./components/pages/NotFound.js";
+import User from "./components/users/User.js";
 const App = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -27,6 +28,7 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={Search} />
             <Route exact path='/about' component={About} />
+            <Route exact path="/user/:id" component={User} />
             <Route exact path='/*' component={NotFound} />
           </Switch>
         </div>
